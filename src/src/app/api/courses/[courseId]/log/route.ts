@@ -1,16 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
 
-// This endpoint exists solely to generate terminal logging for tabs that otherwise don't show activity
+// This endpoint exists solely to generate terminal logging for tabs that otherwise don&apos;t show activity
 export async function GET(
   req: NextRequest,
   { params }: { params: { courseId: string } }
 ) {
-  // Get courseId directly from params object
-  const { courseId } = params
-  
   // Log to the terminal
-  console.log(`Course tab accessed for courseId: ${courseId}`)
+  console.log(`Course tab accessed for courseId: ${params.courseId}`)
   
   // Return a simple response
-  return NextResponse.json({ success: true, message: 'Log entry created' })
+  return NextResponse.json({ success: true, message: &apos;Log entry created&apos; })
 } 

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -17,24 +17,24 @@ export async function GET(
 
     // Fetch objectives
     const { data, error } = await supabaseAdmin
-      .from('course_objectives')
-      .select('*')
-      .eq('course_id', courseId)
-      .order('objective_order', { ascending: true })
+      .from(&apos;course_objectives&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;course_id&apos;, courseId)
+      .order(&apos;objective_order&apos;, { ascending: true })
 
     if (error) {
-      console.error('Error fetching objectives:', error)
+      console.error(&apos;Error fetching objectives:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch objectives' },
+        { success: false, error: &apos;Failed to fetch objectives&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true, objectives: data })
-  } catch (error: any) {
-    console.error('Unexpected error in GET objectives:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in GET objectives:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -51,7 +51,7 @@ export async function POST(
 
     // Create new objective
     const { data, error } = await supabaseAdmin
-      .from('course_objectives')
+      .from(&apos;course_objectives&apos;)
       .insert({
         course_id: courseId,
         objective_text,
@@ -60,9 +60,9 @@ export async function POST(
       .select()
 
     if (error) {
-      console.error('Error creating objective:', error)
+      console.error(&apos;Error creating objective:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to create objective' },
+        { success: false, error: &apos;Failed to create objective&apos; },
         { status: 500 }
       )
     }
@@ -71,10 +71,10 @@ export async function POST(
       success: true, 
       objective: data?.[0] || null
     })
-  } catch (error: any) {
-    console.error('Unexpected error in POST objective:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in POST objective:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

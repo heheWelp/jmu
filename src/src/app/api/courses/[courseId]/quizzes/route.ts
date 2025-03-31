@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -16,18 +16,18 @@ export async function GET(
     
     // Fetch quizzes for the course
     const { data, error } = await supabaseAdmin
-      .from('quizzes')
+      .from(&apos;quizzes&apos;)
       .select(`
         *,
         questions:quiz_questions(count)
       `)
-      .eq('course_id', courseId)
-      .order('number', { ascending: true })
+      .eq(&apos;course_id&apos;, courseId)
+      .order(&apos;number&apos;, { ascending: true })
     
     if (error) {
-      console.error('Error fetching quizzes:', error)
+      console.error(&apos;Error fetching quizzes:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch quizzes' },
+        { success: false, error: &apos;Failed to fetch quizzes&apos; },
         { status: 500 }
       )
     }
@@ -40,9 +40,9 @@ export async function GET(
     
     return NextResponse.json({ success: true, quizzes: formattedQuizzes })
   } catch (error) {
-    console.error('Unexpected error in GET quizzes:', error)
+    console.error(&apos;Unexpected error in GET quizzes:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -61,14 +61,14 @@ export async function POST(
     // Validation
     if (!name) {
       return NextResponse.json(
-        { success: false, error: 'Quiz name is required' },
+        { success: false, error: &apos;Quiz name is required&apos; },
         { status: 400 }
       )
     }
     
     // Insert new quiz
     const { data, error } = await supabaseAdmin
-      .from('quizzes')
+      .from(&apos;quizzes&apos;)
       .insert({
         course_id: courseId,
         name,
@@ -79,18 +79,18 @@ export async function POST(
       .single()
     
     if (error) {
-      console.error('Error adding quiz:', error)
+      console.error(&apos;Error adding quiz:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to add quiz' },
+        { success: false, error: &apos;Failed to add quiz&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, quiz: data })
   } catch (error) {
-    console.error('Unexpected error in POST quiz:', error)
+    console.error(&apos;Unexpected error in POST quiz:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

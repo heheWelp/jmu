@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -16,24 +16,24 @@ export async function DELETE(
     
     // Delete the media item
     const { error } = await supabaseAdmin
-      .from('course_media')
+      .from(&apos;course_media&apos;)
       .delete()
-      .eq('id', id)
-      .eq('course_id', courseId)
+      .eq(&apos;id&apos;, id)
+      .eq(&apos;course_id&apos;, courseId)
     
     if (error) {
-      console.error('Error deleting course media:', error)
+      console.error(&apos;Error deleting course media:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete course media' },
+        { success: false, error: &apos;Failed to delete course media&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Unexpected error in DELETE media:', error)
+    console.error(&apos;Unexpected error in DELETE media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

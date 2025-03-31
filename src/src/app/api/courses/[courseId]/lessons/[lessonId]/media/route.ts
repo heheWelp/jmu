@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { NextResponse } from &apos;next/server&apos;
+import { createRouteHandlerClient } from &apos;@supabase/auth-helpers-nextjs&apos;
+import { cookies } from &apos;next/headers&apos;
 
 export async function GET(
   request: Request,
@@ -10,18 +10,18 @@ export async function GET(
     const supabase = createRouteHandlerClient({ cookies })
 
     const { data: media, error } = await supabase
-      .from('media')
-      .select('*')
-      .eq('lesson_id', params.lessonId)
-      .order('created_at', { ascending: true })
+      .from(&apos;media&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;lesson_id&apos;, params.lessonId)
+      .order(&apos;created_at&apos;, { ascending: true })
 
     if (error) throw error
 
     return NextResponse.json({ success: true, media })
   } catch (error) {
-    console.error('Error fetching lesson media:', error)
+    console.error(&apos;Error fetching lesson media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch lesson media' },
+      { success: false, error: &apos;Failed to fetch lesson media&apos; },
       { status: 500 }
     )
   }
@@ -36,7 +36,7 @@ export async function POST(
     const body = await request.json()
 
     const { data: media, error } = await supabase
-      .from('media')
+      .from(&apos;media&apos;)
       .insert({
         lesson_id: params.lessonId,
         course_id: params.courseId,
@@ -51,9 +51,9 @@ export async function POST(
 
     return NextResponse.json({ success: true, media })
   } catch (error) {
-    console.error('Error adding lesson media:', error)
+    console.error(&apos;Error adding lesson media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Failed to add lesson media' },
+      { success: false, error: &apos;Failed to add lesson media&apos; },
       { status: 500 }
     )
   }
@@ -66,28 +66,28 @@ export async function DELETE(
   try {
     const supabase = createRouteHandlerClient({ cookies })
     const url = new URL(request.url)
-    const mediaId = url.searchParams.get('mediaId')
+    const mediaId = url.searchParams.get(&apos;mediaId&apos;)
 
     if (!mediaId) {
       return NextResponse.json(
-        { success: false, error: 'Media ID is required' },
+        { success: false, error: &apos;Media ID is required&apos; },
         { status: 400 }
       )
     }
 
     const { error } = await supabase
-      .from('media')
+      .from(&apos;media&apos;)
       .delete()
-      .eq('id', mediaId)
-      .eq('lesson_id', params.lessonId)
+      .eq(&apos;id&apos;, mediaId)
+      .eq(&apos;lesson_id&apos;, params.lessonId)
 
     if (error) throw error
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting lesson media:', error)
+    console.error(&apos;Error deleting lesson media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Failed to delete lesson media' },
+      { success: false, error: &apos;Failed to delete lesson media&apos; },
       { status: 500 }
     )
   }

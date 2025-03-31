@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -17,24 +17,24 @@ export async function GET(
 
     // Fetch the module
     const { data, error } = await supabaseAdmin
-      .from('module')
-      .select('*')
-      .eq('id', moduleId)
+      .from(&apos;module&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;id&apos;, moduleId)
       .single()
 
     if (error) {
-      console.error('Error fetching module:', error)
+      console.error(&apos;Error fetching module:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch module' },
+        { success: false, error: &apos;Failed to fetch module&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true, module: data })
-  } catch (error: any) {
-    console.error('Unexpected error in GET module:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in GET module:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -51,23 +51,23 @@ export async function PATCH(
 
     // Update the module
     const { error } = await supabaseAdmin
-      .from('module')
+      .from(&apos;module&apos;)
       .update(updates)
-      .eq('id', moduleId)
+      .eq(&apos;id&apos;, moduleId)
 
     if (error) {
-      console.error('Error updating module:', error)
+      console.error(&apos;Error updating module:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to update module' },
+        { success: false, error: &apos;Failed to update module&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in PATCH module:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in PATCH module:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -83,23 +83,23 @@ export async function DELETE(
 
     // Delete the module
     const { error } = await supabaseAdmin
-      .from('module')
+      .from(&apos;module&apos;)
       .delete()
-      .eq('id', moduleId)
+      .eq(&apos;id&apos;, moduleId)
 
     if (error) {
-      console.error('Error deleting module:', error)
+      console.error(&apos;Error deleting module:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete module' },
+        { success: false, error: &apos;Failed to delete module&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in DELETE module:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in DELETE module:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -19,52 +19,52 @@ export async function DELETE(
     
     // First, delete any related quiz settings
     const { error: settingsError } = await supabaseAdmin
-      .from('quiz_settings')
+      .from(&apos;quiz_settings&apos;)
       .delete()
-      .eq('quiz_id', quizId)
+      .eq(&apos;quiz_id&apos;, quizId)
     
     if (settingsError) {
-      console.error('Error deleting quiz settings:', settingsError)
+      console.error(&apos;Error deleting quiz settings:&apos;, settingsError)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete quiz settings' },
+        { success: false, error: &apos;Failed to delete quiz settings&apos; },
         { status: 500 }
       )
     }
     
     // Delete any quiz questions
     const { error: questionsError } = await supabaseAdmin
-      .from('quiz_questions')
+      .from(&apos;quiz_questions&apos;)
       .delete()
-      .eq('quiz_id', quizId)
+      .eq(&apos;quiz_id&apos;, quizId)
     
     if (questionsError) {
-      console.error('Error deleting quiz questions:', questionsError)
+      console.error(&apos;Error deleting quiz questions:&apos;, questionsError)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete quiz questions' },
+        { success: false, error: &apos;Failed to delete quiz questions&apos; },
         { status: 500 }
       )
     }
     
     // Finally delete the quiz itself
     const { error: quizError } = await supabaseAdmin
-      .from('quizzes')
+      .from(&apos;quizzes&apos;)
       .delete()
-      .eq('id', quizId)
-      .eq('course_id', courseId)
+      .eq(&apos;id&apos;, quizId)
+      .eq(&apos;course_id&apos;, courseId)
     
     if (quizError) {
-      console.error('Error deleting quiz:', quizError)
+      console.error(&apos;Error deleting quiz:&apos;, quizError)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete quiz' },
+        { success: false, error: &apos;Failed to delete quiz&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Unexpected error in DELETE quiz:', error)
+    console.error(&apos;Unexpected error in DELETE quiz:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

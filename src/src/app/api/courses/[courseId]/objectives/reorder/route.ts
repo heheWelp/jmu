@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -20,24 +20,24 @@ export async function PUT(
       const { id, objective_order } = update
       
       const { error } = await supabaseAdmin
-        .from('course_objectives')
+        .from(&apos;course_objectives&apos;)
         .update({ objective_order })
-        .eq('id', id)
+        .eq(&apos;id&apos;, id)
 
       if (error) {
-        console.error('Error updating objective order:', error)
+        console.error(&apos;Error updating objective order:&apos;, error)
         return NextResponse.json(
-          { success: false, error: 'Failed to reorder objectives' },
+          { success: false, error: &apos;Failed to reorder objectives&apos; },
           { status: 500 }
         )
       }
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in PUT reorder objectives:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in PUT reorder objectives:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

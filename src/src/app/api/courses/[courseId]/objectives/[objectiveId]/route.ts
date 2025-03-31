@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -17,23 +17,23 @@ export async function DELETE(
 
     // Delete the objective
     const { error } = await supabaseAdmin
-      .from('course_objectives')
+      .from(&apos;course_objectives&apos;)
       .delete()
-      .eq('id', objectiveId)
+      .eq(&apos;id&apos;, objectiveId)
 
     if (error) {
-      console.error('Error deleting objective:', error)
+      console.error(&apos;Error deleting objective:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete objective' },
+        { success: false, error: &apos;Failed to delete objective&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in DELETE objective:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in DELETE objective:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

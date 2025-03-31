@@ -1,7 +1,7 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
-import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase'
+import { createClient as createSupabaseClient } from &apos;@supabase/supabase-js&apos;
+import { NextResponse } from &apos;next/server&apos;
+import { cookies } from &apos;next/headers&apos;
+import { createClient } from &apos;@/lib/supabase&apos;
 
 // Create Supabase client with service role key to bypass RLS
 const supabaseAdmin = createSupabaseClient(
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     
     if (!session?.user?.id) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: &apos;Unauthorized&apos; },
         { status: 401 }
       )
     }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       course_code: otherFormData.course_code,
       education_level: otherFormData.education_level || null,
       user_type: otherFormData.user_type || null,
-      status: 'draft',
+      status: &apos;draft&apos;,
       created_by: session.user.id,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -39,12 +39,12 @@ export async function POST(request: Request) {
     
     // Insert the course
     const { data, error } = await supabaseAdmin
-      .from('course')
+      .from(&apos;course&apos;)
       .insert(courseData)
       .select()
     
     if (error) {
-      console.error('Course creation error:', error.message)
+      console.error(&apos;Course creation error:&apos;, error.message)
       return NextResponse.json(
         { error: `Failed to create course: ${error.message}` },
         { status: 500 }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
     if (!data || data.length === 0) {
       return NextResponse.json(
-        { error: 'Failed to create course - no data returned' },
+        { error: &apos;Failed to create course - no data returned&apos; },
         { status: 500 }
       )
     }
@@ -62,18 +62,18 @@ export async function POST(request: Request) {
     if (data[0].id) {
       const courseDetailsData = {
         course_id: data[0].id,
-        description: description || '',
+        description: description || &apos;&apos;,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }
       
       const { error: detailsError } = await supabaseAdmin
-        .from('course_details')
+        .from(&apos;course_details&apos;)
         .insert(courseDetailsData)
         .select()
       
       if (detailsError) {
-        console.error('Course details creation error:', detailsError.message)
+        console.error(&apos;Course details creation error:&apos;, detailsError.message)
         return NextResponse.json(
           { error: `Failed to save course description: ${detailsError.message}` },
           { status: 500 }
@@ -84,16 +84,16 @@ export async function POST(request: Request) {
         success: true, 
         data: [{
           ...data[0],
-          description: description || ''
+          description: description || &apos;&apos;
         }]
       })
     }
 
     return NextResponse.json({ success: true, data })
-  } catch (err: any) {
-    console.error('Unexpected error:', err.message)
+  } catch (err: unknown) {
+    console.error(&apos;Unexpected error:&apos;, err.message)
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { error: &apos;An unexpected error occurred&apos; },
       { status: 500 }
     )
   }
@@ -102,14 +102,14 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const formData = await request.json()
-    console.log('Received course update data:', JSON.stringify(formData, null, 2))
+    console.log(&apos;Received course update data:&apos;, JSON.stringify(formData, null, 2))
     
     // Extract description and ID first
     const { description, id, ...otherFormData } = formData;
     
     if (!id) {
       return NextResponse.json(
-        { error: 'Course ID is required' },
+        { error: &apos;Course ID is required&apos; },
         { status: 400 }
       )
     }
@@ -132,17 +132,17 @@ export async function PATCH(request: Request) {
       }
     })
     
-    console.log('Updating course table:', JSON.stringify(courseData, null, 2))
+    console.log(&apos;Updating course table:&apos;, JSON.stringify(courseData, null, 2))
     
     // Update the course with service role
     const { data, error } = await supabaseAdmin
-      .from('course')
+      .from(&apos;course&apos;)
       .update(courseData)
-      .eq('id', id)
+      .eq(&apos;id&apos;, id)
       .select()
     
     if (error) {
-      console.error('Server course update error:', error)
+      console.error(&apos;Server course update error:&apos;, error)
       return NextResponse.json(
         { error: `Failed to update course: ${error.message}` },
         { status: 500 }
@@ -153,30 +153,30 @@ export async function PATCH(request: Request) {
     if (description !== undefined) {
       // First check if course_details entry exists
       const { data: existingDetails } = await supabaseAdmin
-        .from('course_details')
-        .select('id')
-        .eq('course_id', id)
+        .from(&apos;course_details&apos;)
+        .select(&apos;id&apos;)
+        .eq(&apos;course_id&apos;, id)
         .single()
       
       if (existingDetails) {
         // Update existing record
-        console.log('Updating existing course_details record with description')
+        console.log(&apos;Updating existing course_details record with description&apos;)
         const { error: detailsError } = await supabaseAdmin
-          .from('course_details')
+          .from(&apos;course_details&apos;)
           .update({
             description,
             updated_at: new Date().toISOString()
           })
-          .eq('course_id', id)
+          .eq(&apos;course_id&apos;, id)
         
         if (detailsError) {
-          console.error('Server course details update error:', detailsError)
+          console.error(&apos;Server course details update error:&apos;, detailsError)
         }
       } else {
         // Create new record
-        console.log('Creating new course_details record with description')
+        console.log(&apos;Creating new course_details record with description&apos;)
         const { error: detailsError } = await supabaseAdmin
-          .from('course_details')
+          .from(&apos;course_details&apos;)
           .insert({
             course_id: id,
             description,
@@ -185,16 +185,16 @@ export async function PATCH(request: Request) {
           })
         
         if (detailsError) {
-          console.error('Server course details creation error:', detailsError)
+          console.error(&apos;Server course details creation error:&apos;, detailsError)
         }
       }
     }
     
     return NextResponse.json({ success: true, data })
   } catch (err) {
-    console.error('Unexpected error in update-course:', err)
+    console.error(&apos;Unexpected error in update-course:&apos;, err)
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { error: &apos;An unexpected error occurred&apos; },
       { status: 500 }
     )
   }

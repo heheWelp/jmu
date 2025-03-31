@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -17,24 +17,24 @@ export async function GET(
 
     // Fetch the lesson
     const { data, error } = await supabaseAdmin
-      .from('lesson')
-      .select('*')
-      .eq('id', lessonId)
+      .from(&apos;lesson&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;id&apos;, lessonId)
       .single()
 
     if (error) {
-      console.error('Error fetching lesson:', error)
+      console.error(&apos;Error fetching lesson:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch lesson' },
+        { success: false, error: &apos;Failed to fetch lesson&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true, lesson: data })
-  } catch (error: any) {
-    console.error('Unexpected error in GET lesson:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in GET lesson:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -51,23 +51,23 @@ export async function PATCH(
 
     // Update the lesson
     const { error } = await supabaseAdmin
-      .from('lesson')
+      .from(&apos;lesson&apos;)
       .update(updates)
-      .eq('id', lessonId)
+      .eq(&apos;id&apos;, lessonId)
 
     if (error) {
-      console.error('Error updating lesson:', error)
+      console.error(&apos;Error updating lesson:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to update lesson' },
+        { success: false, error: &apos;Failed to update lesson&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in PATCH lesson:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in PATCH lesson:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -83,23 +83,23 @@ export async function DELETE(
 
     // Delete the lesson
     const { error } = await supabaseAdmin
-      .from('lesson')
+      .from(&apos;lesson&apos;)
       .delete()
-      .eq('id', lessonId)
+      .eq(&apos;id&apos;, lessonId)
 
     if (error) {
-      console.error('Error deleting lesson:', error)
+      console.error(&apos;Error deleting lesson:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to delete lesson' },
+        { success: false, error: &apos;Failed to delete lesson&apos; },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    console.error('Unexpected error in DELETE lesson:', error)
+  } catch (error: unknown) {
+    console.error(&apos;Unexpected error in DELETE lesson:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

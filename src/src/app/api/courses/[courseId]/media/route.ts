@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient } from &apos;@/lib/supabase/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -13,28 +13,26 @@ export async function GET(
   { params }: { params: { courseId: string } }
 ) {
   try {
-    const { courseId } = params
-    
     // Fetch media for the course
     const { data, error } = await supabaseAdmin
-      .from('course_media')
-      .select('*')
-      .eq('course_id', courseId)
-      .order('course_order', { ascending: true })
+      .from(&apos;course_media&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;course_id&apos;, params.courseId)
+      .order(&apos;course_order&apos;, { ascending: true })
     
     if (error) {
-      console.error('Error fetching course media:', error)
+      console.error(&apos;Error fetching course media:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch course media' },
+        { success: false, error: &apos;Failed to fetch course media&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, media: data })
   } catch (error) {
-    console.error('Unexpected error in GET media:', error)
+    console.error(&apos;Unexpected error in GET media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -45,7 +43,6 @@ export async function POST(
   { params }: { params: { courseId: string } }
 ) {
   try {
-    const { courseId } = params
     const body = await req.json()
     
     const { media_type, media_url, course_order } = body
@@ -53,16 +50,16 @@ export async function POST(
     // Validation
     if (!media_type || !media_url) {
       return NextResponse.json(
-        { success: false, error: 'Media type and URL are required' },
+        { success: false, error: &apos;Media type and URL are required&apos; },
         { status: 400 }
       )
     }
     
     // Insert new media
     const { data, error } = await supabaseAdmin
-      .from('course_media')
+      .from(&apos;course_media&apos;)
       .insert({
-        course_id: courseId,
+        course_id: params.courseId,
         media_type,
         media_url,
         course_order,
@@ -71,18 +68,18 @@ export async function POST(
       .single()
     
     if (error) {
-      console.error('Error adding course media:', error)
+      console.error(&apos;Error adding course media:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to add course media' },
+        { success: false, error: &apos;Failed to add course media&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, media: data })
   } catch (error) {
-    console.error('Unexpected error in POST media:', error)
+    console.error(&apos;Unexpected error in POST media:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

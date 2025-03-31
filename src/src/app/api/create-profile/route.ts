@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
-import { NextResponse } from 'next/server'
+import { createClient } from &apos;@supabase/supabase-js&apos;
+import { NextResponse } from &apos;next/server&apos;
 
 export async function POST(request: Request) {
   try {
@@ -13,23 +13,23 @@ export async function POST(request: Request) {
     
     // Insert the profile
     const { data, error } = await supabase
-      .from('profiles')
+      .from(&apos;profiles&apos;)
       .insert(profileData)
       .select()
     
     if (error) {
-      console.error('Server profile creation error:', error)
+      console.error(&apos;Server profile creation error:&apos;, error)
       return NextResponse.json(
-        { error: 'Failed to create profile' },
+        { error: &apos;Failed to create profile&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, data })
   } catch (err) {
-    console.error('Unexpected error in create-profile:', err)
+    console.error(&apos;Unexpected error in create-profile:&apos;, err)
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { error: &apos;An unexpected error occurred&apos; },
       { status: 500 }
     )
   }

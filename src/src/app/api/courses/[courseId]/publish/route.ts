@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -16,29 +16,29 @@ export async function PUT(
     
     // Update course status to published
     const { data, error } = await supabaseAdmin
-      .from('course')
+      .from(&apos;course&apos;)
       .update({
-        status: 'published',
+        status: &apos;published&apos;,
         published_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       })
-      .eq('id', courseId)
+      .eq(&apos;id&apos;, courseId)
       .select()
       .single()
     
     if (error) {
-      console.error('Error publishing course:', error)
+      console.error(&apos;Error publishing course:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to publish course' },
+        { success: false, error: &apos;Failed to publish course&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, course: data })
   } catch (error) {
-    console.error('Unexpected error in publish course:', error)
+    console.error(&apos;Unexpected error in publish course:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }

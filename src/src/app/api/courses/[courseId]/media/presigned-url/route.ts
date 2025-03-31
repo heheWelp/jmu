@@ -1,23 +1,28 @@
-import { NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
+
+// Create Supabase admin client to bypass RLS
+const supabaseAdmin = createAdminClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export async function POST(
   request: Request,
   { params }: { params: { courseId: string } }
 ) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const { courseId } = await params
     const body = await request.json()
     const { fileName, contentType } = body
 
     // Generate a unique file path
     const timestamp = Date.now()
-    const filePath = `courses/${params.courseId}/media/${timestamp}-${fileName}`
+    const filePath = `courses/${courseId}/media/${timestamp}-${fileName}`
 
-    // Get presigned URL from Supabase Storage
-    const { data, error } = await supabase.storage
-      .from('media')
+    // Get presigned URL from Supabase Storage using admin client
+    const { data, error } = await supabaseAdmin.storage
+      .from(&apos;media&apos;)
       .createSignedUploadUrl(filePath)
 
     if (error) throw error
@@ -32,9 +37,9 @@ export async function POST(
       fileUrl
     })
   } catch (error) {
-    console.error('Error generating presigned URL:', error)
+    console.error(&apos;Error generating presigned URL:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Failed to generate upload URL' },
+      { success: false, error: &apos;Failed to generate upload URL&apos; },
       { status: 500 }
     )
   }

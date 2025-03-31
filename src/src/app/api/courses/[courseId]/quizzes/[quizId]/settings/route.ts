@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from &apos;next/server&apos;
+import { createClient as createAdminClient } from &apos;@supabase/supabase-js&apos;
 
 // Create Supabase admin client to bypass RLS
 const supabaseAdmin = createAdminClient(
@@ -16,15 +16,15 @@ export async function GET(
     
     // Fetch quiz settings
     const { data, error } = await supabaseAdmin
-      .from('quiz_settings')
-      .select('*')
-      .eq('quiz_id', quizId)
+      .from(&apos;quiz_settings&apos;)
+      .select(&apos;*&apos;)
+      .eq(&apos;quiz_id&apos;, quizId)
       .single()
     
-    if (error && error.code !== 'PGRST116') { // PGRST116 is "No rows returned" error
-      console.error('Error fetching quiz settings:', error)
+    if (error && error.code !== &apos;PGRST116&apos;) { // PGRST116 is &quot;No rows returned&quot; error
+      console.error(&apos;Error fetching quiz settings:&apos;, error)
       return NextResponse.json(
-        { success: false, error: 'Failed to fetch quiz settings' },
+        { success: false, error: &apos;Failed to fetch quiz settings&apos; },
         { status: 500 }
       )
     }
@@ -41,9 +41,9 @@ export async function GET(
     
     return NextResponse.json({ success: true, settings })
   } catch (error) {
-    console.error('Unexpected error in GET quiz settings:', error)
+    console.error(&apos;Unexpected error in GET quiz settings:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
@@ -61,17 +61,17 @@ export async function PUT(
     
     // Check if settings already exist
     const { data: existingSettings, error: fetchError } = await supabaseAdmin
-      .from('quiz_settings')
-      .select('id')
-      .eq('quiz_id', quizId)
+      .from(&apos;quiz_settings&apos;)
+      .select(&apos;id&apos;)
+      .eq(&apos;quiz_id&apos;, quizId)
       .single()
     
-    let result;
+    const result;
     
     if (existingSettings) {
       // Update existing settings
       result = await supabaseAdmin
-        .from('quiz_settings')
+        .from(&apos;quiz_settings&apos;)
         .update({
           min_pass_score,
           is_pass_required,
@@ -80,13 +80,13 @@ export async function PUT(
           max_attempts,
           updated_at: new Date().toISOString()
         })
-        .eq('id', existingSettings.id)
+        .eq(&apos;id&apos;, existingSettings.id)
         .select()
         .single()
     } else {
       // Insert new settings
       result = await supabaseAdmin
-        .from('quiz_settings')
+        .from(&apos;quiz_settings&apos;)
         .insert({
           quiz_id: quizId,
           min_pass_score,
@@ -100,18 +100,18 @@ export async function PUT(
     }
     
     if (result.error) {
-      console.error('Error updating quiz settings:', result.error)
+      console.error(&apos;Error updating quiz settings:&apos;, result.error)
       return NextResponse.json(
-        { success: false, error: 'Failed to update quiz settings' },
+        { success: false, error: &apos;Failed to update quiz settings&apos; },
         { status: 500 }
       )
     }
     
     return NextResponse.json({ success: true, settings: result.data })
   } catch (error) {
-    console.error('Unexpected error in PUT quiz settings:', error)
+    console.error(&apos;Unexpected error in PUT quiz settings:&apos;, error)
     return NextResponse.json(
-      { success: false, error: 'Server error' },
+      { success: false, error: &apos;Server error&apos; },
       { status: 500 }
     )
   }
